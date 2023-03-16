@@ -1,21 +1,13 @@
 const express = require('express');
 const route = express.Router();
 const homeController = require('./src/controllers/homeController');
-const contactUsController = require('./src/controllers/contactUsController');
+const logInController = require('./src/controllers/logInController');
 
-function myMiddleware(request, response, next)  {
-    console.log();
-    console.log('I had pass on your middleware');
-    console.log();
-    next();
-};
 
 // HOME ROUTES
-route.get('/', homeController.homePage);
-route.post('/', homeController.dealPost);
+route.get('/', homeController.index);
 
-
-// CONTACT US ROUTES
-route.get('/contactus', contactUsController.landingPage)
+// LOGIN ROUTES
+route.get('/login/index', logInController.index);
 
 module.exports = route;
