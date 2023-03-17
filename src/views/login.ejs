@@ -7,12 +7,15 @@
         <div class="col-lg-8 my-3">
           <h1 class="text-center">Login or Sign Up</h1>
           <p class="text-center lead">Please, log or create your account below:</p>
+          <%- include('includes/messages'); %>
 
           <div class="row">
 
             <div class="col-lg">
               <h4>Sign Up</h4>
               <p>If you still don't have an account, please Sign In:</p>
+
+
               <form action="/login/register" method="POST">
                 <input type="hidden" name="_csrf" value=<%= csrfToken %>>
                 <div class="form-group">
@@ -21,10 +24,6 @@
                 </div>
                 <div class="form-group">
                   <label>Your Password</label>
-                  <input type="password" class="form-control" name="password">
-                </div>
-                <div class="form-group">
-                  <label>Repeat your Password</label>
                   <input type="password" class="form-control" name="password">
                 </div>
                 <button type="submit" class="btn btn-primary">Create Account</button>
