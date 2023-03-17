@@ -1,5 +1,6 @@
 exports.middlewareGlobal = (request, response, next) => {
-    response.locals.localVariable1 = 'This is the value of the Local Variable.';
+    response.locals.errors = request.flash('errors');
+    response.locals.success = request.flash('success');
     next();
 };
 
