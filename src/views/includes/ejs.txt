@@ -1,0 +1,4 @@
+<% Flux Control (if, for...) %>
+<%= Print Loosen Char %>
+<%- Print and execute any JS Command inside %>
+<%- include('path/file'); %>
