@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcryptjs = require('bcryptjs');
 
 const LoginSchema = new mongoose.Schema({
     email: { type: String, required: true },
     password: { type: String, required: true }
-    
 });
 
 const LoginModel = mongoose.model('Login', LoginSchema);
@@ -16,18 +16,52 @@ class Login {
         this.user = null;
     }
 
-    register() {
+    async login() {
         this.validate();
         if(this.errors.length > 0) return;
+        this.user = await LoginModel.findOne({ email: this.body.email });
+
+        if(!this.user) {
+            this.errors.push("This account doesn't exist.")
+            return;
+        }
+
+        if(!bcryptjs.compareSync(this.body.password, this.user.password)) {
+            this.errors.push('Wrong password.');
+            this.user = null;
+            return;
+        }; 
+
     }
 
+    async register() {
+        this.validate();
+        if(this.errors.length > 0) return;
+        
+        await this.userExists();
+
+        if(this.errors.length > 0) return;
+
+        const salt = bcryptjs.genSaltSync();
+        this.body.password = bcryptjs.hashSync(this.body.password, salt);
+
+        this.user = await LoginModel.create(this.body);
+
+    }
+
+    async userExists() {
+        this.user = await LoginModel.findOne({ email: this.body.email });
+        if(this.user) this.errors.push('This user already exists.');
+    }
 
     validate() {
         this.cleanUp();
-        if(!validator.isEmail(this.body.email)) this.errors.push('Invalid E-mail');
+
+
+        if(!validator.isEmail(this.body.email)) this.errors.push('Your Email is not valid.');
 
         if(this.body.password.length < 3 || this.body.password.length > 20) {
-            this.errors.push('The password needs to be between 3 and 20 characters.');
+            this.errors.push('Your password needs to have between 3 and 20 characters')
         }
     }
 
