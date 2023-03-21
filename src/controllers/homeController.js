@@ -1,6 +1,8 @@
-exports.index = (request, response, next) => {
-    //   request.session.user = { name: 'John Doe', loggedIn: true };
-    response.render('index');
+const Contact = require('../models/ContactModel');
+
+exports.index = async (request, response, next) => {
+    const contacts = await Contact.searchContacts();
+    response.render('index', { contacts });
 
 };
 

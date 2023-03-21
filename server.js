@@ -2,7 +2,13 @@ require('dotenv').config(); //-> to save your connection string safe in .env (re
 const express = require('express'); // -> calling Express
 const app = express();  // -> assigning express to "app"
 const mongoose = require('mongoose');
-mongoose.connect(process.env.CONNECTIONSTRING, { useNewUrlParser: true, useUnifiedTopology: true}) // -> Mongoose: used to model our database communication with MongoDB (Promise)
+
+ // -> Mongoose: used to model our database communication with MongoDB (Promise)
+mongoose.connect(process.env.CONNECTIONSTRING, 
+    { 
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+    })
     .then(() => {
         app.emit('success');
     })

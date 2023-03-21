@@ -8,17 +8,25 @@
       <h1 class="text-center">Contacts</h1>
       <p class="text-center lead">Here's your contacts below:</p>
       <%- include('includes/messages') %>
+
+      <% if(contacts.length > 0) { %>
       <div class="responsive-table">
         <table class="table my-3">
+          <% contacts.forEach(contact => { %>
           <tr>
-            <td>Carnícius</td>
-            <td>aka. Vini</td>
-            <td>+55 (45) 99923142</td>
-            <td>carnicius@delirio.com.br</td>
+            <td><%= contact.name %></td>
+            <td><%= contact.lastname %></td>
+            <td><%= contact.telephone %></td>
+            <td><%= contact.email %></td>
+            <td><a href="/contact/index/<%= contact._id %>">Edit</a></td>
+            <td><a class="text-danger" href="/contact/delete/<%= contact._id %>">Delete</a></td>
           </tr>
+          <% }); %>
         </table>
       </div>
-    
+    <% } else { %>
+      <p class="text-center lead">Sorry, you don't have any contact to show, Hurry up and create a new contact :)</p>
+    <% }  %>
     </div>
 
     <div class="col-lg-2"></div>
