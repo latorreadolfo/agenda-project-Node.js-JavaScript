@@ -64,8 +64,13 @@ Contact.prototype.edit = async function(id) {
 
 Contact.searchById = async function(id) {
     if(typeof id !== 'string') return;
-    const contact = await ContactModel.findById(id);
-    return contact;
+    try {
+       const contact = await ContactModel.findById(id);
+       return contact;
+   } catch(e) {
+    request.flash('warning', "This route doesn't exist.");
+    response.redirect(`/`);
+   }
 };
 
 Contact.searchContacts = async function() {
