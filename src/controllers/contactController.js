@@ -17,7 +17,7 @@ exports.create = async (request, response) => {
         }
     
         request.flash('success', "You've successfully created a new contact");
-        request.session.save(() => response.redirect(`/contact/index/:${contact.contact._id}`));
+        request.session.save(() => response.redirect(`/contact/index/${contact.contact._id}`));
         return;
     } catch(e) {
         console.log(e);
@@ -27,11 +27,15 @@ exports.create = async (request, response) => {
 
 exports.editIndex = async function(request, response) {
     if(!request.params.id) return response.render('404');
+    try {
+        const contact = await Contact.searchById(request.params.id);
+        if(!contact) return response.render('404');
+        return response.render('contact', { contact });
 
-    const contact = await Contact.searchById(request.params.id);
-    if(!contact) return response.render('404');
-
-    response.render('contact', { contact });
+    } catch(e) {
+        console.log(e);
+        return response.redirect('/');
+    }
 };
 
 exports.edit = async function(request, response) {

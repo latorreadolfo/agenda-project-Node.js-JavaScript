@@ -49,12 +49,16 @@ app.use(middlewareGlobal);
 app.use(checkCsrfError);
 app.use(csrfMiddleware);
 app.use(routes);
+app.use(function(request, response, next) {
+    response.status(404)
+    response.redirect('/')
+});
 
 app.on('success', () => {
     app.listen(3000, () => {
         console.log('Server Running on Port: 3000');
         console.log('Access on http://localhost:3000');
     });
-
+    
 });
 
